@@ -1,0 +1,11 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "CoinTrackerTakeHome"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-19h511k68xt9x"
+s3_prefix = "CoinTrackerTakeHome"
+region = "us-west-2"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+image_repositories = []
