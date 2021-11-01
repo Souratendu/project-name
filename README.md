@@ -16,7 +16,7 @@ APIs Supported are:
 
 This project does not follow the technologies suggested in the SYSTEM DESIGN, for a MVP I chose to to use AWS Serverless Infrastructure which stores and retrieves data from MYSQL DB.
 
-To Create the DB, please check the DB folder which contains the SQL Scripts.
+To Create the DB, please check the DB folder which contains the SQL Scripts: https://github.com/Souratendu/project-name/blob/master/src/db/SQLQueries.sql.
 
 
 Please follow the below instructions if it is need to setup this code base in another AWS account. Folloe the instructions to set up SAM CLI first.
