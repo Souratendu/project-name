@@ -2,27 +2,25 @@
 
 This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. It includes the following files and folders.
 
-- hello_world - Code for the application's Lambda function.
-- events - Invocation events that you can use to invoke the function.
-- tests - Unit tests for the application code. 
+- src folder - Code for the application's Lambda function.
 - template.yaml - A template that defines the application's AWS resources.
 
 The application uses several AWS resources, including Lambda functions and an API Gateway API. These resources are defined in the `template.yaml` file in this project. You can update the template to add AWS resources through the same deployment process that updates your application code.
 
-If you prefer to use an integrated development environment (IDE) to build and test your application, you can use the AWS Toolkit.  
-The AWS Toolkit is an open source plug-in for popular IDEs that uses the SAM CLI to build and deploy serverless applications on AWS. The AWS Toolkit also adds a simplified step-through debugging experience for Lambda function code. See the following links to get started.
+APIs Supported are:
+1. create_user_address: Given a User Id, associates an address with the user. Sample invoke : `curl -d '{"userId": "2afc86cab8b31f55b3747d6aedb5e12c", "address": "bc1qsjf2j7fxhq5338z4zee3p0sr9uu8jf6anmkj4w"}' -H 'Content-Type: application/json' -X POST https://bgrasykzp8.execute-api.us-west-2.amazonaws.com/Prod/create_user_address `. Please use this same userId as my DB only has this in it.
+2. get_user_details: Displays user details like name, email, physical address, etc. Sample invoke: `curl https://bgrasykzp8.execute-api.us-west-2.amazonaws.com/Prod/get_user_details?userId=2afc86cab8b31f55b3747d6aedb5e12c`
+3. get_user_addresses: Given a user Id displays associated bitcoin addresses. Sample invoke: `curl https://bgrasykzp8.execute-api.us-west-2.amazonaws.com/Prod/get_user_addresses?userId=2afc86cab8b31f55b3747d6aedb5e12c`
+4. get_address_details: Given an address displays balance, spent and received in USD. Sample invoke: `curl https://bgrasykzp8.execute-api.us-west-2.amazonaws.com/Prod/get_address_details?address=bc1qsjf2j7fxhq5338z4zee3p0sr9uu8jf6anmkj4w`
+5. sync_addresses: Given an address, syncs the address balance, spent and received using blockchairs api. Invoke this after a new address is added. If you see "Internal Server error", please retry as sometime lambda times out waiting for blockchair. Sample invoke: `curl -d '{"address": "bc1qsjf2j7fxhq5338z4zee3p0sr9uu8jf6anmkj4w"}' -H 'Content-Type: application/json' -X POST https://bgrasykzp8.execute-api.us-west-2.amazonaws.com/Prod/sync_addresses`
 
-* [CLion](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [GoLand](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [IntelliJ](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [WebStorm](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [Rider](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [PhpStorm](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [PyCharm](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [RubyMine](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [DataGrip](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
-* [VS Code](https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/welcome.html)
-* [Visual Studio](https://docs.aws.amazon.com/toolkit-for-visual-studio/latest/user-guide/welcome.html)
+This project does not follow the technologies suggested in the SYSTEM DESIGN, for a MVP I chose to to use AWS Serverless Infrastructure which stores and retrieves data from MYSQL DB.
+
+To Create the DB, please check the DB folder which contains the SQL Scripts.
+
+
+Please follow the below instructions if it is need to setup this code base in another AWS account. Folloe the instructions to set up SAM CLI first.
+The mysqlutility.py file does not have the MySQL configurations, for this code to work in another environment, those values need to be setup.
 
 ## Deploy the sample application
 
@@ -101,19 +99,6 @@ CointTrackerTakeHome$ sam logs -n HelloWorldFunction --stack-name CointTrackerTa
 ```
 
 You can find more information and examples about filtering Lambda function logs in the [SAM CLI Documentation](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-logging.html).
-
-## Tests
-
-Tests are defined in the `tests` folder in this project. Use PIP to install the test dependencies and run tests.
-
-```bash
-CointTrackerTakeHome$ pip install -r tests/requirements.txt --user
-# unit test
-CointTrackerTakeHome$ python -m pytest tests/unit -v
-# integration test, requiring deploying the stack first.
-# Create the env variable AWS_SAM_STACK_NAME with the name of the stack we are testing
-CointTrackerTakeHome$ AWS_SAM_STACK_NAME=<stack-name> python -m pytest tests/integration -v
-```
 
 ## Cleanup
 
